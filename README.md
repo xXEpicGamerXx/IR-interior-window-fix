@@ -16,11 +16,13 @@ It currently does not fix the smart-glass transition interaction. That issue is 
 
 ## Installation
 
-1. Locate the Interstellar Rift installation directory.
-   On Linux with Steam, this is commonly:
-   `/home/<user>/.local/share/Steam/steamapps/common/Interstellar Rift`
+1. Download the latest release zip from the repository's Releases tab. The file name will look like: `IR-interior-window-fix-v#.#.zip`
 
-2. Copy the `Content/` folder from this repository into the game directory overwtiting existing files.
+2. Extract the zip file. After extraction, you should have a folder named: `IR-interior-window-fix`
+
+3. Locate the Interstellar Rift installation directory. On Linux with Steam, this is commonly: `/home/<user>/.local/share/Steam/steamapps/common/Interstellar Rift`
+
+4. Copy the `Content/` folder from the extracted `IR-interior-window-fix` folder into the game directory, overwriting existing files.
 
 After installation, the final file layout in the game directory should include:
 
