@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build release bundle
+        env:
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          bundle_root="dist/IR-interior-window-fix"
+          asset_name="IR-interior-window-fix-${TAG_NAME}.zip"
+
+          rm -rf dist
+          mkdir -p "${bundle_root}"
+
+          cp -R Content "${bundle_root}/"
+          cp README.md LICENSE "${bundle_root}/"
+
+          python - <<'PY'
+          import os
+          import zipfile
+
+          tag = os.environ["TAG_NAME"]
+          bundle_root = os.path.join("dist", "IR-interior-window-fix")
+          output_path = os.path.join("dist", f"IR-interior-window-fix-{tag}.zip")
+
+          with zipfile.ZipFile(output_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+              for root, _, files in os.walk(bundle_root):
+                  for name in files:
+                      path = os.path.join(root, name)
+                      arcname = os.path.relpath(path, "dist")
+                      zf.write(path, arcname)
+          PY
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          gh release create "${TAG_NAME}" \
+            "dist/IR-interior-window-fix-${TAG_NAME}.zip" \
+            --title "${TAG_NAME}" \
+            --generate-notes \
+            --verify-tag
