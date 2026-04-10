@@ -1,6 +1,6 @@
 # IR Interior Window Fix
 
-A Linux and Proton shader fix for Interstellar Rift interior smart-glass Windows.
+A shader fix for Interstellar Rift interior smart-glass windows for Linux.
 
 ## Issue
 
